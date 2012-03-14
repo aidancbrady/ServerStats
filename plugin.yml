@@ -1,0 +1,53 @@
+name: ServerStats
+main: org.orecraft.serverstats.ServerStats
+version: 1.0.0
+author: uberKat
+commands:
+  ss:
+    description: ServerStats commands
+  server:
+    description: ServerStats commands
+  serverstats:
+    description: ServerStats commands
+  s:
+    description: ServerStats commands
+permissions:
+    stats.*:
+        description: Gives access to all ServerStats commands.
+        children:
+            stats.info: true
+            stats.credits: true
+            stats.help: true
+            stats.stats: true
+            stats.player: true
+            stats.player.lookup: true
+            stats.rage: true
+            stats.null: true
+            stats.unknown: true
+    stats.info:
+        description: Allows you to use the ServerStats "info" command.
+        default: op
+    stats.credits:
+        description: Allows you to use the ServerStats "credits" command.
+        default: op
+    stats.help:
+        description: Allows you to use the ServerStats "help" command.
+        default: op
+    stats.stats:
+        description: Allows you to use the ServerStats "stats" command.
+        default: op
+    stats.player:
+        description: Allows you to use the ServerStats "player" command.
+        default: op
+    stats.player.lookup:
+        description: Allows you to use the ServerStats "player" command to find players.
+        default: op
+    stats.rage:
+        description: Let's not go there.
+        default: op
+    stats.null:
+        description: Allows you to use the "ServerStats" command.
+        default: op
+    stats.unknown:
+        description: Allows you to receive the ServerStats "unknown" message.
+        default: op

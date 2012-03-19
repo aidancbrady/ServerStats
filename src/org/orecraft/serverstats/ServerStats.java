@@ -181,7 +181,7 @@ public class ServerStats extends JavaPlugin {
 							return true;
 						//If the other player is NOT online then...
 						}
-						else  if (!getServer().getPlayer(args[1]).isOnline()) {
+						else {
 							player.sendMessage(ChatColor.DARK_GRAY + otherPlayer.getName() + ChatColor.GRAY + " is not online.");
 							return true;
 						}
@@ -205,11 +205,18 @@ public class ServerStats extends JavaPlugin {
 							int i;
 							World world = otherPlayer.getWorld();
 							float explosionPower = 3.0F;
+							int playerHealth = otherPlayer.getHealth();
 							Location location = otherPlayer.getLocation();
 							player.sendMessage(ChatColor.GRAY + "Killing player '" + ChatColor.BLUE + otherPlayer.getName() + ChatColor.GRAY + "...'");
 							otherPlayer.sendMessage(ChatColor.GRAY + "Prepare to be destroyed!");
-							for (i=0;i<5;i++) {
+							for (i=0;i<4;i++) {
 								world.strikeLightning(location);
+								try {
+									Thread.currentThread();
+									Thread.sleep(250);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
 							}
 							otherPlayer.getWorld().createExplosion(location, explosionPower);
 							world.createExplosion(location, explosionPower);

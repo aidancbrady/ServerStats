@@ -147,6 +147,7 @@ public class ServerStats extends JavaPlugin {
 				//Player Command
 				
 				else if (param1.equals("player")) {
+					try {
 					//If the command sender didn't type the "x" in (/ss player x) then...
 					if (args.length < 2) {
 						//If the command sender has this permission then...
@@ -167,60 +168,68 @@ public class ServerStats extends JavaPlugin {
 					Player otherPlayer = player.getServer().getPlayer(args[1]);
 					//If the command sender has this permission then...
 					if (player.hasPermission("stats.player.lookup")) {
-						//If the other player is online then...
-						if (getServer().getPlayer(args[1]).isOnline()) {
-							player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
-							player.sendMessage(ChatColor.GRAY + "  " + ChatColor.DARK_BLUE + otherPlayer.getDisplayName() + "'s stats:");
-							player.sendMessage(ChatColor.GRAY + "  OP: " + ChatColor.DARK_GRAY + otherPlayer.isOp());
-							player.sendMessage(ChatColor.GRAY + "  Online: " + ChatColor.DARK_GRAY + otherPlayer.isOnline());
-							player.sendMessage(ChatColor.GRAY + "  Gamemode: " + ChatColor.DARK_GRAY + otherPlayer.getGameMode() + ChatColor.GRAY);
-							player.sendMessage(ChatColor.GRAY + "  IP: " + ChatColor.DARK_GRAY + otherPlayer.getAddress());
-							player.sendMessage(ChatColor.GRAY + "  Health: " + ChatColor.DARK_GRAY + otherPlayer.getHealth());
-							player.sendMessage(ChatColor.GRAY + "  Location: " + ChatColor.DARK_GRAY + "(" + otherPlayer.getWorld().getName() + ", " + Math.round(otherPlayer.getLocation().getX()) + ", " + Math.round(otherPlayer.getLocation().getY()) + ", " + Math.round(otherPlayer.getLocation().getZ()) + ")");
-							player.sendMessage(ChatColor.BLUE + "--------------------------------");
-							return true;
-						//If the other player is NOT online then...
-						}
-						else {
-							player.sendMessage(ChatColor.DARK_GRAY + otherPlayer.getName() + ChatColor.GRAY + " is not online.");
-							return true;
-						}
-					//If the command sender doesn't have permission then...
+						player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
+						player.sendMessage(ChatColor.GRAY + "  " + ChatColor.DARK_BLUE + otherPlayer.getDisplayName() + "'s stats:");
+						player.sendMessage(ChatColor.GRAY + "  OP: " + ChatColor.DARK_GRAY + otherPlayer.isOp());
+						player.sendMessage(ChatColor.GRAY + "  Online: " + ChatColor.DARK_GRAY + otherPlayer.isOnline());
+						player.sendMessage(ChatColor.GRAY + "  Gamemode: " + ChatColor.DARK_GRAY + otherPlayer.getGameMode() + ChatColor.GRAY);
+						player.sendMessage(ChatColor.GRAY + "  IP: " + ChatColor.DARK_GRAY + otherPlayer.getAddress());
+						player.sendMessage(ChatColor.GRAY + "  Health: " + ChatColor.DARK_GRAY + otherPlayer.getHealth());
+						player.sendMessage(ChatColor.GRAY + "  Location: " + ChatColor.DARK_GRAY + "(" + otherPlayer.getWorld().getName() + ", " + Math.round(otherPlayer.getLocation().getX()) + ", " + Math.round(otherPlayer.getLocation().getY()) + ", " + Math.round(otherPlayer.getLocation().getZ()) + ")");
+						player.sendMessage(ChatColor.BLUE + "--------------------------------");
+						return true;
 					}
 					else {
 						player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
 					}
-					
+					//If the command sender doesn't have permission then...
+					}
+					catch (Exception e) {
+						player.sendMessage(ChatColor.RED + "An error occurred, please try again.");
+					}
 				}
 				
 				//Rage Command
 				
 				else if (param1.equals("rage")) {
 					if (player.hasPermission("stats.rage")) {
+						try {
 						Player otherPlayer = player.getServer().getPlayer(param2);
-						if (getServer().matchPlayer(param2).isEmpty() || getServer().matchPlayer(param2).equals("")) {
-							player.sendMessage(ChatColor.GRAY + "Invalid parameters. Try again.");
-						}
-						else {
-							int i;
 							World world = otherPlayer.getWorld();
 							float explosionPower = 3.0F;
-							int playerHealth = otherPlayer.getHealth();
 							Location location = otherPlayer.getLocation();
-							player.sendMessage(ChatColor.GRAY + "Killing player '" + ChatColor.BLUE + otherPlayer.getName() + ChatColor.GRAY + "...'");
-							otherPlayer.sendMessage(ChatColor.GRAY + "Prepare to be destroyed!");
-							for (i=0;i<4;i++) {
-								world.strikeLightning(location);
-								try {
-									Thread.currentThread();
-									Thread.sleep(250);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
+							if (param2.equals("")) {
+								player.sendMessage("You have been obliterated.");
+								for (int i=0;i<4;i++) {
+									world.strikeLightning(player.getLocation());
+									try {
+										Thread.currentThread();
+										Thread.sleep(250);
+									} catch (InterruptedException e) {
+										e.printStackTrace();
+									}
 								}
+								world.createExplosion(location, explosionPower);
 							}
-							otherPlayer.getWorld().createExplosion(location, explosionPower);
-							world.createExplosion(location, explosionPower);
-							player.sendMessage(ChatColor.GRAY + "Player '" + ChatColor.BLUE + otherPlayer.getName() + ChatColor.GRAY + "' has been destroyed.");
+							else {
+								player.sendMessage(ChatColor.GRAY + "Killing player '" + ChatColor.BLUE + otherPlayer.getName() + ChatColor.GRAY + "...'");
+								otherPlayer.sendMessage(ChatColor.GRAY + "Prepare to be destroyed!");
+								for (int i=0;i<4;i++) {
+									world.strikeLightning(location);
+									try {
+										Thread.currentThread();
+										Thread.sleep(250);
+									} catch (InterruptedException e) {
+										e.printStackTrace();
+									}
+								}
+								world.createExplosion(location, explosionPower);
+								player.sendMessage(ChatColor.GRAY + "Player '" + ChatColor.BLUE + otherPlayer.getName() + ChatColor.GRAY + "' has been destroyed.");
+							}
+						}
+						catch (Exception e)
+						{
+							player.sendMessage(ChatColor.RED + "An error occured. Please try your command again.");
 						}
 					}
 					else {

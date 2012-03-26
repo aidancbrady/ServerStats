@@ -28,6 +28,7 @@ public class ServerStats extends JavaPlugin {
 			if (command.equals("ss") || command.equals("server") || command.equals("serverstats") || command.equals("s")) {
 				String param1 = args.length > 0 ? args[0] : "";
 				String param2 = args.length > 1 ? args[1] : "";
+				String param3 = args.length > 2 ? args[2] : "";
 
 				//Info Command
 				
@@ -192,50 +193,39 @@ public class ServerStats extends JavaPlugin {
 				//Rage Command
 				
 				else if (param1.equals("rage")) {
-					if (player.hasPermission("stats.rage")) {
-						try {
-						Player otherPlayer = player.getServer().getPlayer(param2);
-							World world = otherPlayer.getWorld();
-							float explosionPower = 3.0F;
-							Location location = otherPlayer.getLocation();
-							if (param2.equals("")) {
-								player.sendMessage("You have been obliterated.");
-								for (int i=0;i<4;i++) {
-									world.strikeLightning(player.getLocation());
-									try {
-										Thread.currentThread();
-										Thread.sleep(250);
-									} catch (InterruptedException e) {
-										e.printStackTrace();
-									}
-								}
-								world.createExplosion(location, explosionPower);
+					try {
+						if (player.hasPermission("stats.rage")) {
+							int damage;
+							Player target = getServer().getPlayer(param2);
+							if (param2.equals("") && param3.equals("")) {
+								player.sendMessage(ChatColor.GRAY + "May Notch's wrath rain upon thou, " + player.getDisplayName() + "!");
+								rage(player);
+							}
+							else if (!param2.equals("") && param3.equals("")) {
+								player.sendMessage(ChatColor.GRAY + "Raging player '" + target.getDisplayName() + ".'");
+								target.sendMessage(ChatColor.GRAY + "May Notch's wrath rain upon thou, " + target.getDisplayName() + "!");
+								rage(target);
+							}
+							else if (!param2.equals("") && !param3.equals("")) {
+								player.sendMessage(ChatColor.GRAY + "Raging player '" + target.getDisplayName() + ".'");
+								target.sendMessage(ChatColor.GRAY + "May Notch's wrath rain upon thou, " + target.getDisplayName() + "!");
+								damage = Integer.parseInt(param3);
+								rage(target, damage);
 							}
 							else {
-								player.sendMessage(ChatColor.GRAY + "Killing player '" + ChatColor.BLUE + otherPlayer.getName() + ChatColor.GRAY + "...'");
-								otherPlayer.sendMessage(ChatColor.GRAY + "Prepare to be destroyed!");
-								for (int i=0;i<4;i++) {
-									world.strikeLightning(location);
-									try {
-										Thread.currentThread();
-										Thread.sleep(250);
-									} catch (InterruptedException e) {
-										e.printStackTrace();
-									}
-								}
-								world.createExplosion(location, explosionPower);
-								player.sendMessage(ChatColor.GRAY + "Player '" + ChatColor.BLUE + otherPlayer.getName() + ChatColor.GRAY + "' has been destroyed.");
+								player.sendMessage(ChatColor.GRAY + "Invalid parameters. Try again.");
 							}
 						}
-						catch (Exception e)
-						{
-							player.sendMessage(ChatColor.RED + "An error occured. Please try your command again.");
+						else {
+							player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
 						}
 					}
-					else {
-						player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
+					catch (Exception e)
+					{
+						player.sendMessage(ChatColor.GRAY + "Invalid parameters. Try again.");
 					}
 				}
+				
 				//Null Command
 				
 				else if (param1.equals("")) {
@@ -274,6 +264,30 @@ public class ServerStats extends JavaPlugin {
 	}
 
 	Logger log;
+	
+	public boolean rage(Player player, int damage)
+	{
+		float explosionPower = damage;
+		int lightningStrikes = damage;
+		World world = player.getWorld();
+		Location location = player.getLocation();
+		for (int i=0;i<lightningStrikes;i++) {
+			world.strikeLightning(location);
+			try {
+				Thread.currentThread();
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		world.createExplosion(location, explosionPower);
+		return true;
+	}
+	
+	public boolean rage(Player player)
+	{
+		return rage(player, 5);
+	}
 	
     public void onEnable() {
     	new IPListener(this);

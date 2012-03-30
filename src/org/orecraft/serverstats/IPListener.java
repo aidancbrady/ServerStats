@@ -32,7 +32,7 @@ public class IPListener implements Listener {
 				Logger log = Logger.getLogger("Minecraft");
 				log.info("[ServerStats] Creating database for player '" + playerName + ".'");
 				BufferedWriter writer = new BufferedWriter(new FileWriter(playerLogger, true));
-				writer.append("[" + getDate() + "] " + playerName + "-(" + playerIP + ")");
+				writer.append(getDate() + "," + playerName + "," + playerIP);
 				writer.newLine();
 				writer.flush();
 				writer.close();

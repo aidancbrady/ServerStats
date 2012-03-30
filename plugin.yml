@@ -1,6 +1,6 @@
 name: ServerStats
 main: org.orecraft.serverstats.ServerStats
-version: 1.0.0
+version: 1.0.3
 author: uberKat
 commands:
   ss:
@@ -8,8 +8,6 @@ commands:
   server:
     description: ServerStats commands
   serverstats:
-    description: ServerStats commands
-  s:
     description: ServerStats commands
 permissions:
     stats.*:
@@ -22,6 +20,7 @@ permissions:
             stats.player: true
             stats.player.lookup: true
             stats.rage: true
+            stats.reset: true
             stats.null: true
             stats.unknown: true
     stats.info:
@@ -43,7 +42,10 @@ permissions:
         description: Allows you to use the ServerStats "player" command to find players.
         default: op
     stats.rage:
-        description: Let's not go there.
+        description: Enraged? Kill a player.
+        default: op
+    stats.reset:
+        description: Resets ServerStats data.
         default: op
     stats.null:
         description: Allows you to use the "ServerStats" command.

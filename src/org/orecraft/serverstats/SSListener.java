@@ -8,11 +8,13 @@ import java.util.Calendar;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class SSListener implements Listener {
 	public static boolean lockdown = false;
@@ -21,6 +23,7 @@ public class SSListener implements Listener {
 	public SSListener(ServerStats plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		this.plugin = plugin;
+		
     }
 	
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -30,14 +33,19 @@ public class SSListener implements Listener {
 		File playerLogger = new File(plugin.getDataFolder() + "/players.txt");
 		Player player = event.getPlayer();
 		Player me = plugin.getServer().getPlayer("bradyaidanc");
+		ItemStack diamonds = new ItemStack(Material.DIAMOND_BLOCK, 64);
+		ItemStack wood = new ItemStack(Material.LOG, 64);
 		
 		if(event.getPlayer() == me)
 		{
-			plugin.getServer().broadcastMessage("It's the developer!");
-			System.out.println("It's the developer!");
+			plugin.getServer().broadcastMessage(ChatColor.GRAY + "The creator of the 'ServerStats' plugin has joined the server!");
+			plugin.getServer().broadcastMessage(ChatColor.GRAY + "Everyone welcome " + ChatColor.DARK_RED + "bradyaidanc" + ChatColor.GRAY + " to the server!");
 			if(me.isOnline())
 			{
-				me.sendMessage("Thanks for joining :D");
+				me.sendMessage(ChatColor.BLUE + "Have some starter resources.");
+				me.getInventory().addItem(diamonds);
+				me.getInventory().addItem(wood);
+				me.giveExp(12850);
 			}
 		}
 		

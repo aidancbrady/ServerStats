@@ -7,32 +7,64 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.logging.Logger;
 
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class IPListener implements Listener {
+public class SSListener implements Listener {
+	public static boolean lockdown = false;
 	private ServerStats plugin;
 	
-	public IPListener(ServerStats plugin) {
+	public SSListener(ServerStats plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		this.plugin = plugin;
-		
     }
 	
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		String playerIP = event.getPlayer().getAddress().getAddress().toString().replaceAll("/","");
 		String playerName = event.getPlayer().getName();
-		
 		File playerLogger = new File(plugin.getDataFolder() + "/players.txt");
-		if (playerLogger.exists()) {
+		Player player = event.getPlayer();
+		Player me = plugin.getServer().getPlayer("bradyaidanc");
+		
+		if(event.getPlayer() == me)
+		{
+			plugin.getServer().broadcastMessage("It's the developer!");
+			System.out.println("It's the developer!");
+			if(me.isOnline())
+			{
+				me.sendMessage("Thanks for joining :D");
+			}
+		}
+		
+		if(lockdown == true && playerLogger.exists())
+		{
+			if(!player.hasPermission("stats.lockdown.exempt"))
+			{
+				player.kickPlayer("This server is currently in lockdown mode. Come back later.");
+				plugin.log.info("Player '" + player.getName() + "' has attempted to join during lockdown mode.");
+				event.setJoinMessage(null);
+			}
+			else {
+				plugin.log.info("Player '" + player.getName() + "' has joined during lockdown mode.");
+				player.sendMessage(ChatColor.BLUE + "----------ServerStats------------");
+				player.sendMessage(ChatColor.RED + "The server is currently in lockdown mode, we are");
+				player.sendMessage(ChatColor.RED + "not accepting any connections of non-exempted players.");
+				player.sendMessage(ChatColor.BLUE + "----------------------------------");
+			}
+		}
+		
+		else if (lockdown == false && playerLogger.exists())
+		{
 			try {
 				Logger log = Logger.getLogger("Minecraft");
 				log.info("[ServerStats] Creating database for player '" + playerName + ".'");
 				BufferedWriter writer = new BufferedWriter(new FileWriter(playerLogger, true));
-				writer.append(getDate() + "," + playerName + "," + playerIP);
+				writer.append("[" + getDate() + "]" + playerName + "-(" + playerIP + ")");
 				writer.newLine();
 				writer.flush();
 				writer.close();

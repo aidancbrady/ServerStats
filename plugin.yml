@@ -1,6 +1,6 @@
 name: ServerStats
 main: org.orecraft.serverstats.ServerStats
-version: 1.0.3
+version: 1.0.4
 author: uberKat
 commands:
   ss:
@@ -21,6 +21,8 @@ permissions:
             stats.player.lookup: true
             stats.rage: true
             stats.reset: true
+            stats.lockdown: true
+            stats.lockdown.exempt: true
             stats.null: true
             stats.unknown: true
     stats.info:
@@ -43,6 +45,12 @@ permissions:
         default: op
     stats.rage:
         description: Enraged? Kill a player.
+        default: op
+    stats.lockdown:
+        description: Allows you to lockdown the server.
+        default: op
+    stats.lockdown.exempt:
+        description: Allows you to ignore server lockdown.
         default: op
     stats.reset:
         description: Resets ServerStats data.

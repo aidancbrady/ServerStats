@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ServerStats extends JavaPlugin {
-	public static String versionNumber = "1.0.3";
+	public static String versionNumber = "1.0.4";
 	public ServerStats()
 	{
 		super();
@@ -74,6 +74,7 @@ public class ServerStats extends JavaPlugin {
 							player.sendMessage(ChatColor.DARK_GRAY + "  /ss rage [player] [damage] " + ChatColor.GRAY + "- enraged? Kill someone.");
 							player.sendMessage(ChatColor.DARK_GRAY + "  /ss stats " + ChatColor.GRAY + "- displays stats for ServerStats.");
 							player.sendMessage(ChatColor.DARK_GRAY + "  /ss reset " + ChatColor.GRAY + "- resets ServerStats data.");
+							player.sendMessage(ChatColor.DARK_GRAY + "  /ss lockdown [on/off] " + ChatColor.GRAY + "- locks down server.");
 							player.sendMessage(ChatColor.DARK_GRAY + "  /ss info " + ChatColor.GRAY + "- displays info for ServerStats.");
 							player.sendMessage(ChatColor.BLUE + "--------------------------------");
 							return true;
@@ -97,6 +98,10 @@ public class ServerStats extends JavaPlugin {
 						}
 						else if (param2.equals("reset")) {
 							player.sendMessage(ChatColor.DARK_GRAY + "/ss reset " + ChatColor.GRAY + "- resets ServerStats data.");
+							return true;
+						}
+						else if (param2.equals("lockdown")) {
+							player.sendMessage(ChatColor.DARK_GRAY + "/ss lockdown " + ChatColor.GRAY + "- locks down server.");
 							return true;
 						}
 						else if (param2.equals("player")) {
@@ -129,14 +134,14 @@ public class ServerStats extends JavaPlugin {
 						int serverPort = getServer().getPort();
 						int serverOPs = getServer().getOperators().size();
 						String bukkitVersion = getServer().getBukkitVersion();
-						String minecraftVersion = getServer().getVersion();
 						
 						player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
 						player.sendMessage(ChatColor.GRAY + "  There are " + ChatColor.DARK_GRAY + onlinePlayers + ChatColor.GRAY + " out of " + ChatColor.DARK_GRAY + maxSlots + ChatColor.GRAY + " players online.");
 						player.sendMessage(ChatColor.DARK_GRAY + "  " + serverName + ChatColor.GRAY + " is running on IP " + ChatColor.DARK_GRAY + serverIP + ChatColor.GRAY + " with port " + ChatColor.DARK_GRAY + serverPort + ChatColor.GRAY + ".");
-						player.sendMessage(ChatColor.DARK_GRAY + "  " + serverName + ChatColor.GRAY + " has Bukkit version " + ChatColor.DARK_GRAY + bukkitVersion + ChatColor.GRAY + " and is running on Minecraft " + ChatColor.DARK_GRAY + minecraftVersion + ChatColor.GRAY + ".");
+						player.sendMessage(ChatColor.DARK_GRAY + "  " + serverName + ChatColor.GRAY + " has Bukkit version " + ChatColor.DARK_GRAY + bukkitVersion + ChatColor.GRAY + ".");
+						player.sendMessage(ChatColor.GRAY + "  Lockdown status: " + ChatColor.DARK_GRAY + lockdownStatus());
 						player.sendMessage(ChatColor.GRAY + "  There are currently " + ChatColor.DARK_GRAY + serverOPs + ChatColor.GRAY + " players with 'OP' status.");
-						player.sendMessage(ChatColor.GRAY + "  A total of " + ChatColor.DARK_GRAY + totalPlayers + ChatColor.GRAY + " have joined " + ChatColor.DARK_GRAY + serverName);
+						player.sendMessage(ChatColor.GRAY + "  A total of " + ChatColor.DARK_GRAY + totalPlayers + ChatColor.GRAY + " players have joined " + ChatColor.DARK_GRAY + serverName);
 						player.sendMessage(ChatColor.GRAY + "  Maximum Memory: " + ChatColor.DARK_GRAY + (Runtime.getRuntime().maxMemory() / 1024 / 1024) + ChatColor.GRAY + " MB");
 						player.sendMessage(ChatColor.GRAY + "  Total Memory: " + ChatColor.DARK_GRAY + (Runtime.getRuntime().totalMemory() / 1024 / 1024) + ChatColor.GRAY + " MB");
 						player.sendMessage(ChatColor.GRAY + "  Free Memory: " + ChatColor.DARK_GRAY + (Runtime.getRuntime().freeMemory() / 1024 / 1024) + ChatColor.GRAY + " MB");
@@ -148,6 +153,46 @@ public class ServerStats extends JavaPlugin {
 					}
 				}
 				
+				//Lockdown Command
+				
+				else if (param1.equals("lockdown"))
+				{
+					if (player.hasPermission("stats.lockdown")) {
+						if(param2.equals(""))
+						{
+							player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
+							player.sendMessage(ChatColor.GRAY + "Locking down server...");
+							player.sendMessage(ChatColor.GRAY + "Type " + ChatColor.DARK_GRAY + "/ss lockdown off" + ChatColor.GRAY + " to stop the lockdown.");
+							lockdown(player);
+							SSListener.lockdown = true;
+							player.sendMessage(ChatColor.GRAY + "Server is now in lockdown mode.");
+							player.sendMessage(ChatColor.BLUE + "--------------------------------");
+						}
+						else if(param2.equals("true") || param2.equals("on"))
+						{
+							player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
+							player.sendMessage(ChatColor.GRAY + "Locking down server...");
+							player.sendMessage(ChatColor.GRAY + "Type " + ChatColor.DARK_GRAY + "/ss lockdown off" + ChatColor.GRAY + " to stop the lockdown.");
+							lockdown(player);
+							SSListener.lockdown = true;
+							player.sendMessage(ChatColor.GRAY + "Server is now in lockdown mode.");
+							player.sendMessage(ChatColor.BLUE + "--------------------------------");
+						}
+						else if(param2.equals("false") || param2.equals("off"))
+						{
+							player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
+							player.sendMessage(ChatColor.GRAY + "Turning off lockdown...");
+							player.sendMessage(ChatColor.GRAY + "Type " + ChatColor.DARK_GRAY + "/ss lockdown on" + ChatColor.GRAY + " to turn on lockdown.");
+							SSListener.lockdown = false;
+							player.sendMessage(ChatColor.GRAY + "Server is now in public mode.");
+							player.sendMessage(ChatColor.BLUE + "--------------------------------");
+						}
+						else {
+							player.sendMessage(ChatColor.RED + "Unknown lockdown command. Try again, or type " + ChatColor.DARK_GRAY + "/ss help" + ChatColor.RED + " for help.");
+						}
+					}
+				}
+				
 				//Player Command
 				
 				else if (param1.equals("player")) {
@@ -155,7 +200,7 @@ public class ServerStats extends JavaPlugin {
 						if (args.length < 2) {
 							if (player.hasPermission("stats.player")) {
 								player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
-								player.sendMessage(ChatColor.GRAY + "  Hello, " + ChatColor.DARK_BLUE + player.getDisplayName() + "!");
+								player.sendMessage(ChatColor.GRAY + "  Hello, " + ChatColor.DARK_BLUE + player.getName() + "!");
 								player.sendMessage(ChatColor.GRAY + "  You are playing in gamemode '" + ChatColor.DARK_GRAY + player.getGameMode() + ChatColor.GRAY + ".'");
 								player.sendMessage(ChatColor.GRAY + "  You are playing on IP " + ChatColor.DARK_GRAY + player.getAddress() + ChatColor.GRAY + ".");
 								player.sendMessage(ChatColor.GRAY + "  You have " + ChatColor.DARK_GRAY + player.getHealth() + ChatColor.GRAY + " out of " + ChatColor.DARK_GRAY + player.getMaxHealth() + ChatColor.GRAY + " health.");
@@ -169,7 +214,7 @@ public class ServerStats extends JavaPlugin {
 						Player otherPlayer = player.getServer().getPlayer(args[1]);
 						if (player.hasPermission("stats.player.lookup")) {
 							player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
-							player.sendMessage(ChatColor.GRAY + "  " + ChatColor.DARK_BLUE + otherPlayer.getDisplayName() + "'s stats:");
+							player.sendMessage(ChatColor.GRAY + "  " + ChatColor.DARK_BLUE + otherPlayer.getName() + "'s stats:");
 							player.sendMessage(ChatColor.GRAY + "  OP: " + ChatColor.DARK_GRAY + otherPlayer.isOp());
 							player.sendMessage(ChatColor.GRAY + "  Online: " + ChatColor.DARK_GRAY + otherPlayer.isOnline());
 							player.sendMessage(ChatColor.GRAY + "  Gamemode: " + ChatColor.DARK_GRAY + otherPlayer.getGameMode() + ChatColor.GRAY);
@@ -196,17 +241,17 @@ public class ServerStats extends JavaPlugin {
 							int damage;
 							Player target = getServer().getPlayer(param2);
 							if (param2.equals("") && param3.equals("")) {
-								player.sendMessage(ChatColor.GRAY + "May Notch's wrath rain upon thou, " + ChatColor.DARK_BLUE + player.getDisplayName() + ChatColor.GRAY + "!");
+								player.sendMessage(ChatColor.GRAY + "May Notch's wrath rain upon thou, " + ChatColor.DARK_BLUE + player.getName() + ChatColor.GRAY + "!");
 								rage(player);
 							}
 							else if (!param2.equals("") && param3.equals("")) {
-								player.sendMessage(ChatColor.GRAY + "Raging player '" + ChatColor.DARK_BLUE + target.getDisplayName() + ChatColor.GRAY + ".'");
-								target.sendMessage(ChatColor.GRAY + "May Notch's wrath rain upon thou, " + ChatColor.DARK_BLUE + target.getDisplayName() + ChatColor.GRAY + "!");
+								player.sendMessage(ChatColor.GRAY + "Raging player '" + ChatColor.DARK_BLUE + target.getName() + ChatColor.GRAY + ".'");
+								target.sendMessage(ChatColor.GRAY + "May Notch's wrath rain upon thou, " + ChatColor.DARK_BLUE + target.getName() + ChatColor.GRAY + "!");
 								rage(target);
 							}
 							else if (!param2.equals("") && !param3.equals("")) {
-								player.sendMessage(ChatColor.GRAY + "Raging player '" + ChatColor.DARK_BLUE + target.getDisplayName() + ChatColor.GRAY + ".'");
-								target.sendMessage(ChatColor.GRAY + "May Notch's wrath rain upon thou, " + ChatColor.DARK_BLUE + target.getDisplayName() + ChatColor.GRAY + "!");
+								player.sendMessage(ChatColor.GRAY + "Raging player '" + ChatColor.DARK_BLUE + target.getName() + ChatColor.GRAY + ".'");
+								target.sendMessage(ChatColor.GRAY + "May Notch's wrath rain upon thou, " + ChatColor.DARK_BLUE + target.getName() + ChatColor.GRAY + "!");
 								damage = Integer.parseInt(param3);
 								rage(target, damage);
 							}
@@ -254,7 +299,6 @@ public class ServerStats extends JavaPlugin {
 								player.sendMessage(ChatColor.GRAY + "File created.");
 								System.out.println("'players.txt' created.");
 								player.sendMessage(ChatColor.BLUE + "--------------------------------");
-								
 							}
 							catch (IOException e)
 							{
@@ -336,6 +380,34 @@ public class ServerStats extends JavaPlugin {
 	}
 	
 	/**
+	 * Lock down server, and kick all players without "stats.lockdown.exempt" permission.
+	 * @param sender
+	 */
+	
+	private void lockdown(Player sender)
+	{
+		System.out.println("[ServerStats] " + sender.getName() + " has put the server into lockdown mode.");
+		System.out.println("[ServerStats] All players will now be kicked.");
+		for(Player player : getServer().getOnlinePlayers())
+		{
+			if(player.hasPermission("stats.lockdown.exempt") && player != sender)
+			{
+				player.sendMessage(ChatColor.BLUE + "----------ServerStats------------");
+				player.sendMessage(ChatColor.RED + "The server is currently in lockdown mode, we are");
+				player.sendMessage(ChatColor.RED + "not accepting any connections of non-exempted players.");
+				player.sendMessage(ChatColor.BLUE + "----------------------------------");
+			}
+			else if(player.hasPermission("stats.lockdown.exempt") && player == sender)
+			{
+				//Do nothing
+			}
+			else {
+				player.kickPlayer("The server is currently in lockdown mode. Come back later.");
+			}
+		}
+	}
+	
+	/**
 	 * Rage command without 2nd parameter.
 	 * @param player
 	 * @return
@@ -346,8 +418,24 @@ public class ServerStats extends JavaPlugin {
 		return rage(player, 5);
 	}
 	
+	/**
+	 * Return whether lockdown is true or false.
+	 * @return on/off
+	 */
+	
+	public String lockdownStatus()
+	{
+		if(SSListener.lockdown = true)
+		{
+			return "on";
+		}
+		else {
+			return "off";
+		}
+	}
+	
     public void onEnable() {
-    	new IPListener(this);
+    	new SSListener(this);
         if (!new File(getDataFolder().toString()).exists()) {
             new File(getDataFolder().toString()).mkdir();
           }

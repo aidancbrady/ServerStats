@@ -241,8 +241,8 @@ public class ServerStats extends JavaPlugin {
 							int damage;
 							Player target = getServer().getPlayer(param2);
 							if (param2.equals("") && param3.equals("")) {
-								player.sendMessage(ChatColor.GRAY + "May Notch's wrath rain upon thou, " + ChatColor.DARK_BLUE + player.getName() + ChatColor.GRAY + "!");
-								rage(player);
+								player.sendMessage(ChatColor.GRAY + "Prepare for Notch's wrath!");
+								rageWithTarget(player);
 							}
 							else if (!param2.equals("") && param3.equals("")) {
 								player.sendMessage(ChatColor.GRAY + "Raging player '" + ChatColor.DARK_BLUE + target.getName() + ChatColor.GRAY + ".'");
@@ -376,6 +376,29 @@ public class ServerStats extends JavaPlugin {
 			}
 		}
 		world.createExplosion(location, explosionPower);
+		return true;
+	}
+	
+	/**
+	 * Rage command with no parameters.
+	 * @param player
+	 * @return
+	 */
+	
+	public boolean rageWithTarget(Player player)
+	{
+		Location location = player.getTargetBlock(null, 600).getLocation();
+		for (int i=0;i<5;i++)
+		{
+			player.getWorld().strikeLightning(location);
+			try {
+				Thread.currentThread();
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		player.getWorld().createExplosion(location, 5F);
 		return true;
 	}
 	

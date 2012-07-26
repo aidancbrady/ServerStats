@@ -1,6 +1,6 @@
 name: ServerStats
-main: org.orecraft.serverstats.ServerStats
-version: 1.0.5vol
+main: me.rosswalker.serverstats.ServerStats
+version: 1.0.5
 authors: [uberKat, DicaxDorcas]
 commands:
   ss:

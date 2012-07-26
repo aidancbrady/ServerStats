@@ -13,13 +13,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ServerStats extends JavaPlugin {
-	public static String versionNumber = "1.0.4";
+
 	public ServerStats()
 	{
 		super();
 	}
 	
-	@Override
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
 		if (sender instanceof Player) {
@@ -35,7 +35,7 @@ public class ServerStats extends JavaPlugin {
 				if (param1.equals("info")) {
 					if (player.hasPermission("stats.info")) {
 						player.sendMessage(ChatColor.BLUE + "----------ServerStats------------");
-						player.sendMessage(ChatColor.GRAY + "  You are running" + ChatColor.DARK_GRAY + " ServerStats" + ChatColor.GRAY + " version " + ChatColor.GOLD + versionNumber);
+						player.sendMessage(ChatColor.GRAY + "  You are running" + ChatColor.DARK_GRAY + " ServerStats" + ChatColor.GRAY + " version " + ChatColor.GOLD + this.getDescription().getVersion());
 						player.sendMessage(ChatColor.GRAY + "  Plugin is currently " + ChatColor.GREEN + "enabled.");
 						player.sendMessage(ChatColor.GRAY + "  Type " + ChatColor.DARK_GRAY + "/ss help " + ChatColor.GRAY + "for a list of commands.");
 						player.sendMessage(ChatColor.BLUE + "----------------------------------");

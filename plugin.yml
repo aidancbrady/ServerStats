@@ -1,7 +1,7 @@
 name: ServerStats
 main: org.orecraft.serverstats.ServerStats
-version: 1.0.4
-author: uberKat
+version: 1.0.5vol
+authors: [uberKat, DicaxDorcas]
 commands:
   ss:
     description: Central ServerStat Command

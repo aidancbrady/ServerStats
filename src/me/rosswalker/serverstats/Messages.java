@@ -19,7 +19,7 @@ public class Messages {
 	 * @description Returns a string containing the plugin header.
 	 */
 	String getHeader() {
-		return ChatColor.AQUA +"[" + plugin.getName() + "] " + ChatColor.WHITE;
+	    return ChatColor.AQUA +"[" + plugin.getName() + "] " + ChatColor.WHITE;
 	}
 	
 	
@@ -30,11 +30,11 @@ public class Messages {
 	 */
 	void getError(int number, Player player) {
 	    switch(number) {
-	    	case 0: // Lack of permissions.
-	    		player.sendMessage(getHeader() + "You don't have permission to use this command!");
-	    		break;
+	        case 0: // Lack of permissions.
+	    	    player.sendMessage(getHeader() + "You don't have permission to use this command!");
+	    	    break;
 	    	case 1: // Throws Exception.
-	    		player.sendMessage(getHeader() + "An error occured, please try again!");
+	    	    player.sendMessage(getHeader() + "An error occured, please try again!");
 	    		break;
 	    	default:
 	    		break;

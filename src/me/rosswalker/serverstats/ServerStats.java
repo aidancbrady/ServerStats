@@ -53,7 +53,8 @@ public class ServerStats extends JavaPlugin {
 					player.sendMessage(ChatColor.BLUE + "--------------------------------");
 					return true;
 				} else {
-					messages.getError(0, player);
+					//messages.getError(0, player);
+					return true;
 				}
 			}
 				
@@ -71,7 +72,8 @@ public class ServerStats extends JavaPlugin {
 							player.sendMessage(ChatColor.BLUE + "--------------------------------");
 							return true;
 						} else {
-							messages.getError(0, player);
+							//messages.getError(0, player);
+							return true;
 						}
 					}
 					
@@ -89,10 +91,12 @@ public class ServerStats extends JavaPlugin {
 						player.sendMessage(ChatColor.BLUE + "--------------------------------");
 						return true;
 					} else {
-						messages.getError(0, player);
+					    //messages.getError(0, player);
+						return true;
 					}
 				} catch (Exception ex) {
-					messages.getError(1, player);
+					//messages.getError(1, player);
+					return true;
 					}
 			}
 			

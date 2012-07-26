@@ -32,22 +32,6 @@ public class SSListener implements Listener {
 		String playerName = event.getPlayer().getName();
 		File playerLogger = new File(plugin.getDataFolder() + "/players.txt");
 		Player player = event.getPlayer();
-		Player me = plugin.getServer().getPlayer("bradyaidanc");
-		ItemStack diamonds = new ItemStack(Material.DIAMOND_BLOCK, 64);
-		ItemStack wood = new ItemStack(Material.LOG, 64);
-		
-		if(event.getPlayer() == me)
-		{
-			plugin.getServer().broadcastMessage(ChatColor.GRAY + "The creator of the 'ServerStats' plugin has joined the server!");
-			plugin.getServer().broadcastMessage(ChatColor.GRAY + "Everyone welcome " + ChatColor.DARK_RED + "bradyaidanc" + ChatColor.GRAY + " to the server!");
-			if(me.isOnline())
-			{
-				me.sendMessage(ChatColor.BLUE + "Have some starter resources.");
-				me.getInventory().addItem(diamonds);
-				me.getInventory().addItem(wood);
-				me.giveExp(12850);
-			}
-		}
 		
 		if(lockdown == true && playerLogger.exists())
 		{

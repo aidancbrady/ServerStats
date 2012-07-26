@@ -24,7 +24,7 @@ public class ServerStats extends JavaPlugin {
 	 * 
 	 * @see org.bukkit.plugin.java.JavaPlugin#onCommand(org.bukkit.command.CommandSender, org.bukkit.command.Command, java.lang.String, java.lang.String[])
 	 */
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("ss")) {
 				Player player = (Player)sender;
 				//Stats Command
@@ -116,7 +116,7 @@ public class ServerStats extends JavaPlugin {
 	 * 
 	 * @see org.bukkit.plugin.java.JavaPlugin#onEnable()
 	 */
-	public void onDisable(){ 
+	public void onDisable() { 
 		this.getLogger().info("Plugin disabled.");
 	}	
 

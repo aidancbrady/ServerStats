@@ -15,7 +15,7 @@ public class Messages {
 	/* @name getHeader()
 	 * @description Returns a string containing the plugin header.
 	 */
-	String getHeader(){
+	String getHeader() {
 		return ChatColor.AQUA +"[" + plugin.getName() + "]" + ChatColor.WHITE;
 	}
 	
@@ -23,7 +23,7 @@ public class Messages {
 	 * @param1 integer
 	 * @description Returns a string containing the plugin header.
 	 */
-	String getError(int number){
+	String getError(int number) {
 	    return "";
 	}
 	

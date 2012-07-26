@@ -1,4 +1,4 @@
-package org.orecraft.serverstats;
+package me.rosswalker.serverstats;
 
 import java.io.File;
 import java.io.IOException;

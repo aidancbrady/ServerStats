@@ -1,6 +1,5 @@
-package org.orecraft.serverstats;
+package me.rosswalker.serverstats;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,16 +7,14 @@ import java.util.Calendar;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class SSListener implements Listener {
-	public static boolean lockdown = false;
+	
 	private ServerStats plugin;
 	
 	public SSListener(ServerStats plugin) {

@@ -29,22 +29,6 @@ public class ServerStats extends JavaPlugin {
 				String param1 = args.length > 0 ? args[0] : "";
 				String param2 = args.length > 1 ? args[1] : "";
 				String param3 = args.length > 2 ? args[2] : "";
-
-				//Info Command
-				
-				if (param1.equals("info")) {
-					if (player.hasPermission("stats.info")) {
-						player.sendMessage(ChatColor.BLUE + "----------ServerStats------------");
-						player.sendMessage(ChatColor.GRAY + "  You are running" + ChatColor.DARK_GRAY + " ServerStats" + ChatColor.GRAY + " version " + ChatColor.GOLD + this.getDescription().getVersion());
-						player.sendMessage(ChatColor.GRAY + "  Plugin is currently " + ChatColor.GREEN + "enabled.");
-						player.sendMessage(ChatColor.GRAY + "  Type " + ChatColor.DARK_GRAY + "/ss help " + ChatColor.GRAY + "for a list of commands.");
-						player.sendMessage(ChatColor.BLUE + "----------------------------------");
-						return true;
-					}
-					else {
-						player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
-					}
-				}
 				
 
 				//Stats Command

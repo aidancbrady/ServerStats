@@ -23,17 +23,11 @@ public class ServerStats extends JavaPlugin {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
 		if (sender instanceof Player) {
-			String command = cmd.getName().toLowerCase();
 			Player player = (Player)sender;
-			if (command.equals("ss") || command.equals("server") || command.equals("serverstats")) {
-				String param1 = args.length > 0 ? args[0] : "";
-				String param2 = args.length > 1 ? args[1] : "";
-				String param3 = args.length > 2 ? args[2] : "";
+			if (cmd.getName().equalsIgnoreCase("ss")) {
 				
-
 				//Stats Command
-				
-				else if (param1.equals("stats")) {
+				else if (args[0].equals("stats")) {
 					if (player.hasPermission("stats.stats")) {
 						int totalPlayers = (getServer().getOfflinePlayers().length + getServer().getOnlinePlayers().length);
 						int onlinePlayers = getServer().getOnlinePlayers().length;

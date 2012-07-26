@@ -4,11 +4,9 @@ version: 1.0.4
 author: uberKat
 commands:
   ss:
-    description: ServerStats commands
-  server:
-    description: ServerStats commands
-  serverstats:
-    description: ServerStats commands
+    description: Central ServerStat Command
+    aliases: [serverstats, server]
+
 permissions:
     stats.*:
         description: Gives access to all ServerStats commands.
@@ -19,10 +17,7 @@ permissions:
             stats.stats: true
             stats.player: true
             stats.player.lookup: true
-            stats.rage: true
             stats.reset: true
-            stats.lockdown: true
-            stats.lockdown.exempt: true
             stats.null: true
             stats.unknown: true
     stats.info:
@@ -42,15 +37,6 @@ permissions:
         default: op
     stats.player.lookup:
         description: Allows you to use the ServerStats "player" command to find players.
-        default: op
-    stats.rage:
-        description: Enraged? Kill a player.
-        default: op
-    stats.lockdown:
-        description: Allows you to lockdown the server.
-        default: op
-    stats.lockdown.exempt:
-        description: Allows you to ignore server lockdown.
         default: op
     stats.reset:
         description: Resets ServerStats data.

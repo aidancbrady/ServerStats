@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class ServerStats extends JavaPlugin {
 
+	Messages messages;
 	
 	/* @name onCommand()
 	 * @description Handles commands for ServerStats.
@@ -52,7 +53,7 @@ public class ServerStats extends JavaPlugin {
 					player.sendMessage(ChatColor.BLUE + "--------------------------------");
 					return true;
 				} else {
-					player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
+					messages.getError(0, player);
 				}
 			}
 				
@@ -70,7 +71,7 @@ public class ServerStats extends JavaPlugin {
 							player.sendMessage(ChatColor.BLUE + "--------------------------------");
 							return true;
 						} else {
-							player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
+							messages.getError(0, player);
 						}
 					}
 					
@@ -88,10 +89,10 @@ public class ServerStats extends JavaPlugin {
 						player.sendMessage(ChatColor.BLUE + "--------------------------------");
 						return true;
 					} else {
-						player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
+						messages.getError(0, player);
 					}
 				} catch (Exception ex) {
-						player.sendMessage(ChatColor.RED + "An error occurred, please try again.");
+					messages.getError(1, player);
 					}
 			}
 			

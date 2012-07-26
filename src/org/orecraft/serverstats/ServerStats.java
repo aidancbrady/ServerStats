@@ -46,82 +46,7 @@ public class ServerStats extends JavaPlugin {
 					}
 				}
 				
-				//Credits Command
-				
-				else if (param1.equals("credits")) {
-					if (player.hasPermission("stats.credits")) {
-						player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
-						player.sendMessage(ChatColor.GRAY + "  Programmed and compiled by " + ChatColor.DARK_GRAY + "Aidan Brady.");
-						player.sendMessage(ChatColor.GRAY + "  Made using " + ChatColor.DARK_GRAY + "Eclipse build 20110916-0149");
-						player.sendMessage(ChatColor.GRAY + "  Referenced with " + ChatColor.DARK_GRAY + getServer().getBukkitVersion());
-						player.sendMessage(ChatColor.BLUE + "--------------------------------");
-						return true;
-					}
-					else {
-						player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
-					}
-				}
-				
-				//Help Command
-				
-				else if (param1.equals("help")) {
-					if (player.hasPermission("stats.help")) {
-						if (param2.equals("")) {
-							player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
-							player.sendMessage(ChatColor.DARK_GRAY + "  /ss help [cmd] " + ChatColor.GRAY + "- displays help for ServerStats.");
-							player.sendMessage(ChatColor.DARK_GRAY + "  /ss credits " + ChatColor.GRAY + "- displays credits for ServerStats.");
-							player.sendMessage(ChatColor.DARK_GRAY + "  /ss player [player] " + ChatColor.GRAY + "- displays info of an online player.");
-							player.sendMessage(ChatColor.DARK_GRAY + "  /ss rage [player] [damage] " + ChatColor.GRAY + "- enraged? Kill someone.");
-							player.sendMessage(ChatColor.DARK_GRAY + "  /ss stats " + ChatColor.GRAY + "- displays stats for ServerStats.");
-							player.sendMessage(ChatColor.DARK_GRAY + "  /ss reset " + ChatColor.GRAY + "- resets ServerStats data.");
-							player.sendMessage(ChatColor.DARK_GRAY + "  /ss lockdown [on/off] " + ChatColor.GRAY + "- locks down server.");
-							player.sendMessage(ChatColor.DARK_GRAY + "  /ss info " + ChatColor.GRAY + "- displays info for ServerStats.");
-							player.sendMessage(ChatColor.BLUE + "--------------------------------");
-							return true;
-						}
-						
-						else if (param2.equals("help")) {
-							player.sendMessage(ChatColor.DARK_GRAY + "/ss help " + ChatColor.GRAY + "- displays help for ServerStats.");
-							return true;
-						}
-						else if (param2.equals("stats")) {
-							player.sendMessage(ChatColor.DARK_GRAY + "/ss stats " + ChatColor.GRAY + "- displays stats for ServerStats.");
-							return true;
-						}
-						else if (param2.equals("info")) {
-							player.sendMessage(ChatColor.DARK_GRAY + "/ss info " + ChatColor.GRAY + "- displays info for ServerStats.");
-							return true;	
-						}
-						else if (param2.equals("credits")) {
-							player.sendMessage(ChatColor.DARK_GRAY + "/ss credits " + ChatColor.GRAY + "- displays credits for ServerStats.");
-							return true;
-						}
-						else if (param2.equals("reset")) {
-							player.sendMessage(ChatColor.DARK_GRAY + "/ss reset " + ChatColor.GRAY + "- resets ServerStats data.");
-							return true;
-						}
-						else if (param2.equals("lockdown")) {
-							player.sendMessage(ChatColor.DARK_GRAY + "/ss lockdown " + ChatColor.GRAY + "- locks down server.");
-							return true;
-						}
-						else if (param2.equals("player")) {
-							player.sendMessage(ChatColor.DARK_GRAY + "/ss player " + ChatColor.GRAY + "- displays player info for ServerStats.");
-							return true;
-						}
-						else if (param2.equals("rage")) {
-							player.sendMessage(ChatColor.DARK_GRAY + "/ss rage " + ChatColor.GRAY + "- let's not go there.");
-							return true;
-						}
-						else {
-							player.sendMessage(ChatColor.RED + "Command not recognized. Try another.");
-							return true;
-						}
-					}
-					else {
-						player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
-					}
-				}
-				
+
 				//Stats Command
 				
 				else if (param1.equals("stats")) {
@@ -150,46 +75,6 @@ public class ServerStats extends JavaPlugin {
 					}
 					else {
 						player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
-					}
-				}
-				
-				//Lockdown Command
-				
-				else if (param1.equals("lockdown"))
-				{
-					if (player.hasPermission("stats.lockdown")) {
-						if(param2.equals(""))
-						{
-							player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
-							player.sendMessage(ChatColor.GRAY + "Locking down server...");
-							player.sendMessage(ChatColor.GRAY + "Type " + ChatColor.DARK_GRAY + "/ss lockdown off" + ChatColor.GRAY + " to stop the lockdown.");
-							lockdown(player);
-							SSListener.lockdown = true;
-							player.sendMessage(ChatColor.GRAY + "Server is now in lockdown mode.");
-							player.sendMessage(ChatColor.BLUE + "--------------------------------");
-						}
-						else if(param2.equals("true") || param2.equals("on"))
-						{
-							player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
-							player.sendMessage(ChatColor.GRAY + "Locking down server...");
-							player.sendMessage(ChatColor.GRAY + "Type " + ChatColor.DARK_GRAY + "/ss lockdown off" + ChatColor.GRAY + " to stop the lockdown.");
-							lockdown(player);
-							SSListener.lockdown = true;
-							player.sendMessage(ChatColor.GRAY + "Server is now in lockdown mode.");
-							player.sendMessage(ChatColor.BLUE + "--------------------------------");
-						}
-						else if(param2.equals("false") || param2.equals("off"))
-						{
-							player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
-							player.sendMessage(ChatColor.GRAY + "Turning off lockdown...");
-							player.sendMessage(ChatColor.GRAY + "Type " + ChatColor.DARK_GRAY + "/ss lockdown on" + ChatColor.GRAY + " to turn on lockdown.");
-							SSListener.lockdown = false;
-							player.sendMessage(ChatColor.GRAY + "Server is now in public mode.");
-							player.sendMessage(ChatColor.BLUE + "--------------------------------");
-						}
-						else {
-							player.sendMessage(ChatColor.RED + "Unknown lockdown command. Try again, or type " + ChatColor.DARK_GRAY + "/ss help" + ChatColor.RED + " for help.");
-						}
 					}
 				}
 				
@@ -233,56 +118,7 @@ public class ServerStats extends JavaPlugin {
 					}
 				}
 				
-				//Rage Command
 				
-				else if (param1.equals("rage")) {
-					try {
-						if (player.hasPermission("stats.rage")) {
-							int damage;
-							Player target = getServer().getPlayer(param2);
-							if (param2.equals("") && param3.equals("")) {
-								player.sendMessage(ChatColor.GRAY + "Prepare for Notch's wrath!");
-								rageWithTarget(player);
-							}
-							else if (!param2.equals("") && param3.equals("")) {
-								player.sendMessage(ChatColor.GRAY + "Raging player '" + ChatColor.DARK_BLUE + target.getName() + ChatColor.GRAY + ".'");
-								target.sendMessage(ChatColor.GRAY + "May Notch's wrath rain upon thou, " + ChatColor.DARK_BLUE + target.getName() + ChatColor.GRAY + "!");
-								rage(target);
-							}
-							else if (!param2.equals("") && !param3.equals("")) {
-								player.sendMessage(ChatColor.GRAY + "Raging player '" + ChatColor.DARK_BLUE + target.getName() + ChatColor.GRAY + ".'");
-								target.sendMessage(ChatColor.GRAY + "May Notch's wrath rain upon thou, " + ChatColor.DARK_BLUE + target.getName() + ChatColor.GRAY + "!");
-								damage = Integer.parseInt(param3);
-								rage(target, damage);
-							}
-							else {
-								player.sendMessage(ChatColor.RED + "Invalid parameters. Try again.");
-							}
-						}
-						else {
-							player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
-						}
-					}
-					catch (Exception e)
-					{
-						player.sendMessage(ChatColor.RED + "Invalid parameters. Try again.");
-					}
-				}
-				
-				//Null Command
-				
-				else if (param1.equals("")) {
-					if (player.hasPermission("stats.null")) {
-						player.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
-						player.sendMessage(ChatColor.GRAY + "  ServerStats version " + versionNumber + " loaded.");
-						player.sendMessage(ChatColor.GRAY + "  Type " + ChatColor.DARK_GRAY + "/ss help " + ChatColor.GRAY + "for a list of commands.");
-						player.sendMessage(ChatColor.BLUE + "--------------------------------");
-						return true;
-					}
-					else {
-						player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
-					}
-				}
 				
 				//Reset Command
 				

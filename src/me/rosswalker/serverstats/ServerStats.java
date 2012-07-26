@@ -1,25 +1,29 @@
 package me.rosswalker.serverstats;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Logger;
-
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/* @name ServerStats
+ * @author uberKat, DicaxDorcas
+ * @description Central class for the ServerStats plugin.
+ */
+
+
 public class ServerStats extends JavaPlugin {
 
-	public ServerStats()
-	{
-		super();
-	}
 	
-
+	/* @name onCommand()
+	 * @description Handles commands for ServerStats.
+	 * @param1 CommandSender
+	 * @param2 Command
+	 * @param3 String
+	 * @param4 String[]
+	 * 
+	 * @see org.bukkit.plugin.java.JavaPlugin#onCommand(org.bukkit.command.CommandSender, org.bukkit.command.Command, java.lang.String, java.lang.String[])
+	 */
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
 		if (cmd.getName().equalsIgnoreCase("ss")) {
@@ -96,11 +100,22 @@ public class ServerStats extends JavaPlugin {
 				
 	}
 
-		
+	
+	/* @name onEnable()
+	 * @description Ran when the plugin is enabled.
+	 * 
+	 * @see org.bukkit.plugin.java.JavaPlugin#onEnable()
+	 */
     public void onEnable() {
     	this.getLogger().info("Plugin enabled.");
 	}
-	 
+	
+    
+    /* @name onDisable()
+	 * @description Ran when the plugin is disabled.
+	 * 
+	 * @see org.bukkit.plugin.java.JavaPlugin#onEnable()
+	 */
 	public void onDisable(){ 
 		this.getLogger().info("Plugin disabled.");
 	}	

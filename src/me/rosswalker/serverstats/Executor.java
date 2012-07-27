@@ -28,15 +28,16 @@ public class Executor implements CommandExecutor {
 	 */
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		Player player = null;
 		
+	   Player player = null;
 		if((sender instanceof Player)){
-			player = (Player) sender;
+		    player = (Player) sender;
 		}
 		
 		if (cmd.getName().equalsIgnoreCase("ss")){
 			if(args.length == 0) {
-				if(player == null || player.hasPermission("ServerStats.check")){
+				if((sender.getName() == "CONSOLE") || player.hasPermission("ServerStats.check")){
+				    sender.sendMessage(sender.getName());
 					int totalPlayers = (plugin.getServer().getOfflinePlayers().length 
 							+ plugin.getServer().getOnlinePlayers().length);
 					int onlinePlayers = plugin.getServer().getOnlinePlayers().length;
@@ -63,7 +64,7 @@ public class Executor implements CommandExecutor {
 				}
 				
 			} else if(args.length == 1){
-				if(!(player == null) && player.hasPermission("ServerStats.player")){
+				if(!(sender.getName() == "CONSOLE") && player.hasPermission("ServerStats.player") ){
 					boolean op = player.isOp();
 					String name = player.getName();
 					
@@ -84,12 +85,19 @@ public class Executor implements CommandExecutor {
 					//PERMFAIL
 				}
 			} else if(args.length == 2){
-				if(!(player == null) || player.hasPermission("ServerStats.player.other")){
+			    if(!(sender.getName() == "CONSOLE") && player.hasPermission("ServerStats.player.other") ){
 					Player otherplayer = player.getServer().getPlayer(args[1]);
-					// TODO: Prevent the player for looking for non-existant players.
+					
 					if(otherplayer == null) {
-						OfflinePlayer otherPlayer = player.getServer().getPlayer(args[1]);
-						
+					    
+					    OfflinePlayer otherPlayer = null;
+					    try {
+					        otherPlayer = player.getServer().getPlayer(args[1]);
+					    } catch (NullPointerException ex){
+					        //DOESNOTEXIST
+					        return true;
+					    }
+					    
 						sender.sendMessage(ChatColor.BLUE + "----------ServerStats----------");
 						sender.sendMessage(ChatColor.GRAY + "  " + ChatColor.DARK_BLUE + otherPlayer.getName() + "'s stats:");
 						sender.sendMessage(ChatColor.GRAY + "  OP: " + ChatColor.DARK_GRAY + otherPlayer.isOp());
@@ -112,6 +120,7 @@ public class Executor implements CommandExecutor {
 					
 				} else {
 					//PERMFAIL
+				    return true;
 				}
 			} else {
 				//ARGFAIL

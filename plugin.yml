@@ -5,25 +5,21 @@ authors: [uberKat, DicaxDorcas]
 commands:
   ss:
     description: Central ServerStat Command
-    aliases: [serverstats, server]
+    aliases: [serverstats, sstats]
 
 permissions:
-    stats.*:
+    ServerStats.*:
         description: Gives access to all ServerStats commands.
         children:
-            stats.stats: true
-            stats.player: true
-            stats.player.lookup: true
-            stats.reset: true
-    stats.stats:
-        description: Allows you to use the ServerStats stats command.
+            ServerServerStats.check: true
+            ServerStats.player: true
+            ServerStats.player.other: true
+    ServerStats.check:
+        description: Allows a player to check the statistics of the server.
         default: op
-    stats.player:
-        description: Allows you to use the ServerStats player command.
+    ServerStats.player:
+        description: Allows a player to view their own statistics.
         default: op
-    stats.player.lookup:
-        description: Allows you to use the ServerStats player command to find players.
-        default: op
-    stats.reset:
-        description: Resets ServerStats data.
+    ServerStats.player.other:
+        description: Allows a player to view other's statistics.
         default: op

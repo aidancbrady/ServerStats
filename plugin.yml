@@ -1,63 +1,25 @@
 name: ServerStats
-main: org.orecraft.serverstats.ServerStats
-version: 1.0.4
-author: uberKat
+main: me.rosswalker.serverstats.ServerStats
+version: 1.0.5
+authors: [uberKat, DicaxDorcas]
 commands:
   ss:
-    description: ServerStats commands
-  server:
-    description: ServerStats commands
-  serverstats:
-    description: ServerStats commands
+    description: Central ServerStat Command
+    aliases: [serverstats, sstats]
+
 permissions:
-    stats.*:
+    ServerStats.*:
         description: Gives access to all ServerStats commands.
         children:
-            stats.info: true
-            stats.credits: true
-            stats.help: true
-            stats.stats: true
-            stats.player: true
-            stats.player.lookup: true
-            stats.rage: true
-            stats.reset: true
-            stats.lockdown: true
-            stats.lockdown.exempt: true
-            stats.null: true
-            stats.unknown: true
-    stats.info:
-        description: Allows you to use the ServerStats "info" command.
+            ServerServerStats.check: true
+            ServerStats.player: true
+            ServerStats.player.other: true
+    ServerStats.check:
+        description: Allows a player to check the statistics of the server.
         default: op
-    stats.credits:
-        description: Allows you to use the ServerStats "credits" command.
+    ServerStats.player:
+        description: Allows a player to view their own statistics.
         default: op
-    stats.help:
-        description: Allows you to use the ServerStats "help" command.
-        default: op
-    stats.stats:
-        description: Allows you to use the ServerStats "stats" command.
-        default: op
-    stats.player:
-        description: Allows you to use the ServerStats "player" command.
-        default: op
-    stats.player.lookup:
-        description: Allows you to use the ServerStats "player" command to find players.
-        default: op
-    stats.rage:
-        description: Enraged? Kill a player.
-        default: op
-    stats.lockdown:
-        description: Allows you to lockdown the server.
-        default: op
-    stats.lockdown.exempt:
-        description: Allows you to ignore server lockdown.
-        default: op
-    stats.reset:
-        description: Resets ServerStats data.
-        default: op
-    stats.null:
-        description: Allows you to use the "ServerStats" command.
-        default: op
-    stats.unknown:
-        description: Allows you to receive the ServerStats "unknown" message.
+    ServerStats.player.other:
+        description: Allows a player to view other's statistics.
         default: op

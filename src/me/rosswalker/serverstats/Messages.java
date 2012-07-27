@@ -1,6 +1,7 @@
 package me.rosswalker.serverstats;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /* @name Messages
@@ -23,19 +24,21 @@ public class Messages {
 	}
 	
 	
-	/* @name getHeader()
+	/* @name getError()
 	 * @param1 integer
 	 * @param2 Player
 	 * @description Returns a string containing the plugin header.
 	 */
-	void getError(int number, Player player) {
+	void getError(int number, CommandSender sender) {
 	    switch(number) {
 	        case 0: // Lack of permissions.
-	    	    player.sendMessage(getHeader() + "You don't have permission to use this command!");
+	    	    sender.sendMessage(getHeader() + "You don't have permission to use this command!");
 	    	    break;
 	    	case 1: // Throws Exception.
-	    	    player.sendMessage(getHeader() + "An error occured, please try again!");
+	    	    sender.sendMessage(getHeader() + "An error occured, please try again!");
 	    		break;
+	    	case 2:
+	    	    sender.sendMessage(getHeader() + "Too many arguments!");
 	    	default:
 	    		break;
 	    }

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class Executor implements CommandExecutor {
 
 	private ServerStats plugin;
-	
+	private Messages message;
 	
 	public Executor(ServerStats plugin) {
 		this.plugin = plugin;
@@ -60,7 +60,7 @@ public class Executor implements CommandExecutor {
 					sender.sendMessage(ChatColor.BLUE + "--------------------------------");
 					return true;
 				} else {
-					//PERMFAIL
+				    message.getError(0, sender);
 				}
 				
 			} else if(args.length == 1){
@@ -82,7 +82,7 @@ public class Executor implements CommandExecutor {
 					
 					return true;
 				} else {
-					//PERMFAIL
+				    message.getError(0, sender);
 				}
 			} else if(args.length == 2){
 			    if(!(sender.getName() == "CONSOLE") && player.hasPermission("ServerStats.player.other") ){
@@ -119,11 +119,11 @@ public class Executor implements CommandExecutor {
 					}
 					
 				} else {
-					//PERMFAIL
+					message.getError(0, sender);
 				    return true;
 				}
 			} else {
-				//ARGFAIL
+			    message.getError(2, sender);
 				return false;
 			}
 		}
